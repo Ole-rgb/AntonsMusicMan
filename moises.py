@@ -1,4 +1,4 @@
-from helper import Interface
+from interface import Interface
 from dotenv import dotenv_values
 import requests
 import json

@@ -1,3 +1,5 @@
 # AntonsMusicMan
 
-TodDownload high-quality John-Mayer New Light run: "yt-dlp -x --audio-format mp3 --audio-quality 0 https://youtu.be/2PH7dK6SLC8"
+Run the helper.py to execute the project
+
+anton_script is the moises api interaction
