@@ -3,9 +3,15 @@ import os
 import subprocess
 
 #TODO if file exists we have a problem, works if file not downloaded
+#TODO FILE ALREADY DOWNLOADED obsolete, because files get moved out of directory
 
 class Interface:
     def __init__(self):
+        #Path to current file
+        self.current_directory = os.getcwd()
+        self.music_destination = os.path.dirname(self.current_directory)
+        print(self.music_destination)
+        #Tkinter setup
         root = tk.Tk()
         root.title("Antons Music Man")
 
@@ -25,7 +31,7 @@ class Interface:
         #downloads the youtube video as mp3 
         url = self.text_input.get()
         print("Anton wants to download: {}".format(url))
-        output = subprocess.check_output(self.__get_command(url), shell=True, text=True)
+        output = subprocess.check_output(self.__download_audio(url), shell=True, text=True)
         #print(output)
         
         #find the name of the downloaded file
@@ -37,7 +43,8 @@ class Interface:
         
         #if the filename was found, open the finder
         if filename is not None:
-            self.__show_in_finder(filename)
+            self.__move_file(filename)
+            self.__show_in_finder(self.music_destination +"/"+filename)
         else:
             print("Filename not found in finder")
 
@@ -68,13 +75,16 @@ class Interface:
             
         return result_string[:-1] if not file_exists else result_string[:-2]
 
-    
-    def __get_command(self, url):
+    # gets the command to download the file
+    def __download_audio(self, url):
         return "yt-dlp -x --audio-format mp3 --audio-quality 0 {}".format(url)
 
+    #gets the command to show the 
     def __show_in_finder(self,path):
         subprocess.call(["open", "-R", path])
 
-
+    def __move_file(self, filename):
+        os.rename(self.current_directory+"/"+filename, self.music_destination+"/"+filename)
+    
 if __name__ == "__main__":
     Interface()
